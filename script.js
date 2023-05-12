@@ -1,25 +1,20 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-else-return */
-/* eslint-disable no-shadow */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-undef */
-const newBook = document.querySelector('.add-button');
-const body = document.querySelector('body');
+function Book(title, author, pages, read) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.read = read;
+}
+const readBook = new Book('title.value', 'author.value', 'pages.value', true);
+const didntreadBook = new Book('title.value', 'author.value', 'pages.value', false);
+
+let myLibrary = [];
+
+const newBook = document.querySelector('button');
+const container = document.querySelector('#content');
 const form = document.createElement('form');
 const formButton = document.createElement('button');
-const outputBox = document.createElement('div');
-const outputBox2 = document.createElement('div');
-const outputBox3 = document.createElement('div');
-const readButton = document.createElement('button');
+const header = document.querySelector('#header');
 
-form.setAttribute('method', 'post');
-
-function createForm() {
-  body.appendChild(form);
-  return form;
-}
 
 function createInputs() {
   for (let i = 0; i < 5; i++) {
@@ -30,6 +25,7 @@ function createInputs() {
       titleInput.setAttribute('name', 'title');
       titleInput.setAttribute('placeholder', 'Title');
       titleInput.setAttribute('id', 'title');
+      titleInput.setAttribute('required', 'true');
     }
     if (i === 1) {
       titleInput.setAttribute('type', 'text');
@@ -64,64 +60,19 @@ function createInputs() {
     form.appendChild(labelInput);
     form.appendChild(titleInput);
     form.appendChild(formButton);
-    body.appendChild(outputBox);
-    body.appendChild(outputBox2);
-    body.appendChild(outputBox3);
   }
 }
 
-const myLibrary = [];
-
-function clearAndShow() {
-  title.value = '';
-  author.value = '';
-  pages.value = '';
-  if (myLibrary.length <= 5) {
-    outputBox.innerHTML = '';
-    outputBox.innerHTML += `Title:  ${myLibrary[0]}<br/>`;
-    outputBox.innerHTML += `Author: ${myLibrary[1]}<br/>`;
-    outputBox.innerHTML += `Pages:  ${myLibrary[2]}<br/>`;
-    outputBox.innerHTML += `Read:  ${myLibrary[3]}<br/>`;
-  } else if (myLibrary.length <= 10) {
-    outputBox2.innerHTML = '';
-    outputBox2.innerHTML += `Title:  ${myLibrary[5]}<br/>`;
-    outputBox2.innerHTML += `Author: ${myLibrary[6]}<br/>`;
-    outputBox2.innerHTML += `Pages:  ${myLibrary[7]}<br/>`;
-  } else {
-    outputBox3.innerHTML += `Title:  ${myLibrary[8]}<br/>`;
-    outputBox3.innerHTML += `Author: ${myLibrary[9]}<br/>`;
-    outputBox3.innerHTML += `Pages:  ${myLibrary[10]}<br/>`;
-  }
-}
-
-function insert() {
-  myLibrary.push(title.value);
-  myLibrary.push(author.value);
-  myLibrary.push(pages.value);
-  if (document.getElementById('radio-yes').checked) {
-    myLibrary.push(readBook.info());
-  } else if (document.getElementById('radio-no').checked) {
-  myLibrary.push(didntreadBook.info());
-  }
-  clearAndShow();
-}
-
-function submitClick(event) {
-  event.preventDefault();
-}
-
-formButton.addEventListener('click', () => {
-  const title = document.getElementById('title');
-  const author = document.getElementById('author');
-  const pages = document.getElementById('pages');
-  const radioyes = document.getElementById('radio-yes');
-  const radiono = document.getElementById('radio-no');
-  insert();
-  submitClick(event);
-  outputBox.appendChild(readButton);
-  readButton.setAttribute('class', 'readButton');
-  readButton.textContent = 'toggle';
+newBook.addEventListener('click', () => {
+removeInputs(form);
+createForm();
+createInputs();
 });
+
+function createForm() {
+  header.appendChild(form);
+  return form;
+}
 
 function removeInputs(form) {
   while (form.firstChild) {
@@ -129,31 +80,72 @@ function removeInputs(form) {
   }
 }
 
-newBook.addEventListener('click', () => {
-  removeInputs(form);
-  createForm();
-  createInputs();
-});
-
-function Book(title, author, pages, read) {
-  this.title = title.value;
-  this.author = author.value;
-  this.pages = pages.value;
-  this.info = function () {
-    if (read === true) {
-      return 'Read it was great book!';
-    } else {
-      return 'Didnt read it yet!';
-    }
-  };
-}
-
-const readBook = new Book('title.value', 'author.value', 'pages.value', true);
-const didntreadBook = new Book('title.value', 'author.value', 'pages.value', false);
-
-function addBookToLibrary(book) {
-  for (let i = 0; i < myLibrary.length; i++) {
-    console.log(myLibrary[i]);
+function removeAllChildNodes(header) {
+  while (header.firstChild) {
+    header.removeChild(header.firstChild);
   }
 }
-addBookToLibrary();
+
+function submitClick(event) {
+event.preventDefault();
+}
+
+formButton.addEventListener('click', () => {
+  insert();
+  createDivs();
+  removeAllChildNodes(header);
+  submitClick(event);
+});
+
+function insert() { 
+  let title = document.getElementById('title').value;
+  let author = document.getElementById('author').value;
+  let pages = document.getElementById('pages').value;
+  let read;
+  if (document.getElementById('radio-yes').checked) {
+   read = 'Read it!';
+  } else if (document.getElementById('radio-no').checked) {
+     read = 'Didnt read!';
+  }
+  let book = new Book(title, author, pages, read);
+  myLibrary.unshift(book);
+}
+
+
+
+
+function createDivs() {
+for (let i = 0; i < 1; i++) {   
+  const readButton = document.createElement('button');
+ const div = document.createElement('div');
+const deleteButton = document.createElement('button');
+  div.classList.add('book');
+  container.appendChild(div);
+    div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
+div.appendChild(readButton);
+  div.appendChild(deleteButton);
+  readButton.textContent = 'Read';
+deleteButton.textContent = 'Remove';
+  } 
+}
+
+
+
+
+function changeStatus () {
+  for(let i = 0; i < 1; i++) {
+      if (myLibrary[i].read === 'Read it!') {
+          myLibrary[i].read = 'Didnt read!';
+       } else if (myLibrary[i].read === 'Didnt read!') {
+          myLibrary[i].read = 'Read it!';
+       }
+  }
+}
+
+
+
+
+
+
+
+
