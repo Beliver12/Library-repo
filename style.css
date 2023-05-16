@@ -4,3 +4,7 @@
   width: 800px;
   border: 1px solid black;
 }
+
+#content.book {
+  display: none;
+}
