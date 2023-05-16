@@ -3,7 +3,15 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
+  this.info = function () {
+    if (this.read === 'Read it!') {
+      this.read = 'Didnt Read!'; 
+    } else if (this.read === 'Didnt Read!') {
+      this.read = 'Read it!';
+    }
+  };
 }
+//Book.prototype.changeRead = function () {}
 const readBook = new Book('title.value', 'author.value', 'pages.value', true);
 const didntreadBook = new Book('title.value', 'author.value', 'pages.value', false);
 
@@ -14,7 +22,6 @@ const container = document.querySelector('#content');
 const form = document.createElement('form');
 const formButton = document.createElement('button');
 const header = document.querySelector('#header');
-
 
 function createInputs() {
   for (let i = 0; i < 5; i++) {
@@ -105,17 +112,17 @@ function insert() {
   if (document.getElementById('radio-yes').checked) {
    read = 'Read it!';
   } else if (document.getElementById('radio-no').checked) {
-     read = 'Didnt read!';
+     read = 'Didnt Read!';
   }
-  let book = new Book(title, author, pages, read);
-  myLibrary.unshift(book);
+  const book = new Book(title, author, pages, read);
+  myLibrary.push(book);
 }
 
 
 
 
 function createDivs() {
-for (let i = 0; i < 1; i++) {   
+for (let i = myLibrary.length - 1; i < myLibrary.length; i++) {
   const readButton = document.createElement('button');
  const div = document.createElement('div');
 const deleteButton = document.createElement('button');
@@ -124,27 +131,64 @@ const deleteButton = document.createElement('button');
     div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
 div.appendChild(readButton);
   div.appendChild(deleteButton);
+  readButton.setAttribute('id', 'readButton');
+  readButton.setAttribute('value', i);
   readButton.textContent = 'Read';
 deleteButton.textContent = 'Remove';
+setAtr(div)
+deleteButton.addEventListener('click', () => {
+  removeDivs(div);
+});
+
+readButton.addEventListener('click', () => {
+  let value = document.getElementById('readButton').value;
+ let values = parseFloat(value);
+  console.log(values);
+  if(values < i) {
+    values += i;
+myLibrary[values].info();
+  div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
+  div.appendChild(readButton);
+  div.appendChild(deleteButton);
+  readButton.textContent = 'Read';
+deleteButton.textContent = 'Remove';
+  }else {
+    myLibrary[values].info();
+  div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
+  div.appendChild(readButton);
+  div.appendChild(deleteButton);
+  readButton.textContent = 'Read';
+deleteButton.textContent = 'Remove';
+  }
+})
   } 
 }
 
+let buttonList = document.querySelectorAll('readButton').forEach(readButton => {
+  readButton.addEventListener('click', () => {
+    const value = readButton.value;
+    myLibrary[value].info();
+  div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
+  div.appendChild(readButton);
+  div.appendChild(deleteButton);
+  readButton.textContent = 'Read';
+deleteButton.textContent = 'Remove';
+  })
+})
 
 
+    function removeDivs(div) {
+      if (div.parentNode) {
+        div.parentNode.removeChild(div);
+        myLibrary.pop(['data-book']);
+      }
+    }
 
-function changeStatus () {
-  for(let i = 0; i < 1; i++) {
-      if (myLibrary[i].read === 'Read it!') {
-          myLibrary[i].read = 'Didnt read!';
-       } else if (myLibrary[i].read === 'Didnt read!') {
-          myLibrary[i].read = 'Read it!';
-       }
-  }
-}
-
-
-
-
+    function setAtr(div) {
+         for(let i = 0; i < myLibrary.length; i++){
+          div.setAttribute('data-book', i);
+         }
+    }
 
 
 
