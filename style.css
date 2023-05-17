@@ -1,10 +1,90 @@
 .book{
   display: flex;
   justify-content: space-between;
-  width: 800px;
-  border: 1px solid black;
+  align-items: center;
+ text-align: center;
+  border: 2px solid black;
+  border-bottom-left-radius: 5px;
+  height: 30px;
+  color: beige;
+  font-size: large;
 }
 
 #content.book {
   display: none;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(auto-fit, minmax(10%, 400px));
+  background-color: rgb(163, 72, 72);
+  border-radius: 5px
+}
+
+.add-button {
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.heading{
+  display: flex;
+  justify-content: center;
+  background-color: rgb(163, 72, 72);
+}
+
+#header, form{
+  grid-row: 1/2;
+  height: 350px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(6, 25px);
+  justify-self: center;
+  row-gap: 10px;
+  
+}
+form{
+  border: 3px solid rgb(44, 40, 17);
+  border-radius: 5px;
+}
+
+input[type='text'],
+input[type='number']{
+  width: 300px;
+  border-radius: 6px;
+}
+
+button[type='submit']{
+  width: 150px;
+  justify-self: center;
+  border-radius: 8px;
+}
+
+input[type='radio'] {
+  width: 50px;
+  justify-self: center;
+position: relative;
+bottom: 32px;
+left: 40px;
+}
+
+label{
+  width: 100px;
+  justify-self: center;
+}
+
+#readButton{
+  border-radius: 6px;
+  background-color: darkolivegreen;
+  color: white;
+}
+
+#deleteButton{
+  border-radius: 6px;
+  background-color:darkred;
+  color: white;
+}
+body{
+  background-color:darkslategrey;
 }
