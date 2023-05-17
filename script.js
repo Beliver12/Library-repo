@@ -39,19 +39,23 @@ function createInputs() {
       titleInput.setAttribute('name', 'author');
       titleInput.setAttribute('placeholder', 'Author');
       titleInput.setAttribute('id', 'author');
+      titleInput.setAttribute('required', 'true');
     }
     if (i === 2) {
-      titleInput.setAttribute('type', 'text');
+      titleInput.setAttribute('type', 'number');
       titleInput.setAttribute('name', 'pages');
       titleInput.setAttribute('placeholder', 'Pages');
       titleInput.setAttribute('id', 'pages');
+      titleInput.setAttribute('required', 'true');
     }
     if (i === 3) {
       titleInput.setAttribute('type', 'radio');
       titleInput.setAttribute('name', 'answer');
       titleInput.setAttribute('id', 'radio-yes');
       titleInput.setAttribute('value', 'Read it was great book!');
+      titleInput.setAttribute('checked', 'true');
       labelInput.textContent = 'Read:';
+      labelInput.style.color = 'white';
       labelInput.setAttribute('for', 'radio-yes');
     }
     if (i === 4) {
@@ -63,6 +67,7 @@ function createInputs() {
       labelInput.setAttribute('for', 'radio-no');
       formButton.setAttribute('type', 'submit');
       formButton.textContent = 'Submit';
+      labelInput.style.color = 'white';
     }
     form.appendChild(labelInput);
     form.appendChild(titleInput);
@@ -99,6 +104,9 @@ event.preventDefault();
 
 formButton.addEventListener('click', () => {
   insert();
+  if (title.value === '' || author.value === '' || pages.value === '') {
+    return false;
+  }
   createDivs();
   removeAllChildNodes(header);
   submitClick(event);
@@ -114,6 +122,7 @@ function insert() {
   } else if (document.getElementById('radio-no').checked) {
      read = 'Didnt Read!';
   }
+  
   const book = new Book(title, author, pages, read);
   myLibrary.push(book);
 }
@@ -128,12 +137,15 @@ for (let i = myLibrary.length - 1; i < myLibrary.length; i++) {
 const deleteButton = document.createElement('button');
   div.classList.add('book');
   container.appendChild(div);
-    div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
+    div.innerHTML = `*Title: ${myLibrary[i].title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    *Author: ${myLibrary[i].author}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    *Pages: ${myLibrary[i].pages}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp; ${myLibrary[i].read}`;
 div.appendChild(readButton);
   div.appendChild(deleteButton);
   readButton.setAttribute('id', 'readButton');
   readButton.setAttribute('value', i);
   readButton.textContent = 'Read';
+  deleteButton.setAttribute('id', 'deleteButton');
 deleteButton.textContent = 'Remove';
 setAtr(div)
 deleteButton.addEventListener('click', () => {
@@ -147,14 +159,18 @@ readButton.addEventListener('click', () => {
   if(values < i) {
     values += i;
 myLibrary[values].info();
-  div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
+  div.innerHTML = `*Title: ${myLibrary[i].title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  *Author: ${myLibrary[i].author}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  *Pages: ${myLibrary[i].pages}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp; ${myLibrary[i].read}`;
   div.appendChild(readButton);
   div.appendChild(deleteButton);
   readButton.textContent = 'Read';
 deleteButton.textContent = 'Remove';
   }else {
     myLibrary[values].info();
-  div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
+  div.innerHTML = `*Title: ${myLibrary[i].title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  *Author: ${myLibrary[i].author}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  *Pages: ${myLibrary[i].pages}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp; ${myLibrary[i].read}`;
   div.appendChild(readButton);
   div.appendChild(deleteButton);
   readButton.textContent = 'Read';
