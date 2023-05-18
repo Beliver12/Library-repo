@@ -11,9 +11,6 @@ function Book(title, author, pages, read) {
     }
   };
 }
-//Book.prototype.changeRead = function () {}
-const readBook = new Book('title.value', 'author.value', 'pages.value', true);
-const didntreadBook = new Book('title.value', 'author.value', 'pages.value', false);
 
 let myLibrary = [];
 
@@ -22,6 +19,7 @@ const container = document.querySelector('#content');
 const form = document.createElement('form');
 const formButton = document.createElement('button');
 const header = document.querySelector('#header');
+const removeForm = document.createElement('button');
 
 function createInputs() {
   for (let i = 0; i < 5; i++) {
@@ -72,6 +70,9 @@ function createInputs() {
     form.appendChild(labelInput);
     form.appendChild(titleInput);
     form.appendChild(formButton);
+    form.appendChild(removeForm);
+    removeForm.textContent = 'X';
+    removeForm.setAttribute('id', 'removeForm');
   }
 }
 
@@ -79,6 +80,10 @@ newBook.addEventListener('click', () => {
 removeInputs(form);
 createForm();
 createInputs();
+});
+
+removeForm.addEventListener('click', () => {
+  removeAllChildNodes(header);
 });
 
 function createForm() {
@@ -108,7 +113,6 @@ formButton.addEventListener('click', () => {
     return false;
   }
   createDivs();
-  removeAllChildNodes(header);
   submitClick(event);
 });
 
@@ -179,19 +183,6 @@ deleteButton.textContent = 'Remove';
 })
   } 
 }
-
-let buttonList = document.querySelectorAll('readButton').forEach(readButton => {
-  readButton.addEventListener('click', () => {
-    const value = readButton.value;
-    myLibrary[value].info();
-  div.textContent = `${myLibrary[i].title} ${myLibrary[i].author} ${myLibrary[i].pages} ${myLibrary[i].read}`;
-  div.appendChild(readButton);
-  div.appendChild(deleteButton);
-  readButton.textContent = 'Read';
-deleteButton.textContent = 'Remove';
-  })
-})
-
 
     function removeDivs(div) {
       if (div.parentNode) {
