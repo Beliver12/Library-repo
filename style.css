@@ -6,7 +6,8 @@
   border: 2px solid black;
   border-bottom-left-radius: 5px;
   height: 30px;
-  color: beige;
+  background-color: white;
+  color: black;
   font-size: large;
 }
 
@@ -18,7 +19,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(auto-fit, minmax(10%, 400px));
-  background-color: rgb(163, 72, 72);
+  
   border-radius: 5px
 }
 
@@ -86,5 +87,9 @@ label{
   color: white;
 }
 body{
-  background-color:darkslategrey;
+  background-color: rgb(163, 72, 72);
+}
+#removeForm{
+  width: 50px;
+  margin-left: 130px;
 }
