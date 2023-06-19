@@ -1,15 +1,18 @@
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.info = function () {
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
+
+  readStatus() {
     if (this.read === 'Read it!') {
-      this.read = 'Didnt Read!'; 
+      this.read = 'Didnt Read!';
     } else if (this.read === 'Didnt Read!') {
       this.read = 'Read it!';
     }
-  };
+  }
 }
 
 let myLibrary = [];
@@ -114,6 +117,9 @@ formButton.addEventListener('click', () => {
   }
   createDivs();
   submitClick(event);
+  title.value = '';
+  author.value = '';
+  pages.value = '';
 });
 
 function insert() { 
@@ -162,7 +168,7 @@ readButton.addEventListener('click', () => {
   console.log(values);
   if(values < i) {
     values += i;
-myLibrary[values].info();
+myLibrary[values].readStatus();
   div.innerHTML = `*Title: ${myLibrary[i].title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
   *Author: ${myLibrary[i].author}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
   *Pages: ${myLibrary[i].pages}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp; ${myLibrary[i].read}`;
@@ -170,8 +176,8 @@ myLibrary[values].info();
   div.appendChild(deleteButton);
   readButton.textContent = 'Read';
 deleteButton.textContent = 'Remove';
-  }else {
-    myLibrary[values].info();
+  } else {
+    myLibrary[values].readStatus();
   div.innerHTML = `*Title: ${myLibrary[i].title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
   *Author: ${myLibrary[i].author}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
   *Pages: ${myLibrary[i].pages}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp; ${myLibrary[i].read}`;
@@ -196,7 +202,6 @@ deleteButton.textContent = 'Remove';
           div.setAttribute('data-book', i);
          }
     }
-
 
 
 
